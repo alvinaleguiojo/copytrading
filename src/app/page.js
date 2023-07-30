@@ -10,19 +10,29 @@ export default async function Home() {
     }
   );
 
-  const orders = await res.json();
-
-  const totalFloatingProfit = orders.reduce(
-    (total, order) => total + order.profit,
-    0
+  const resAccount = await fetch(
+    `https://mt5.mtapi.be/AccountSummary?id=72a053bf-5d2c-44ac-af50-ac88687cb77d`,
+    {
+      cache: "no-store",
+    }
   );
 
-  let convertedtotalFloatingProfit = totalFloatingProfit;
+  const account = await resAccount.json();
+  const orders = await res.json();
+
+  let accountBalance = account.balance;
+  let accountEquity = account.equity;
+  let formattedaccountBalance = "$" + accountBalance.toLocaleString();
+  let formattedaccountEquity = "$" + accountEquity.toLocaleString();
+
+  let convertedtotalFloatingProfit = account.profit;
   convertedtotalFloatingProfit = convertedtotalFloatingProfit.toFixed(2);
 
   return (
     <main className={styles.main}>
       <Tabs />
+      <p>Account Balance: {formattedaccountBalance}</p>
+      <p>Equity: {formattedaccountEquity}</p>
       <p>
         Floating:
         {convertedtotalFloatingProfit < 0 ? (
