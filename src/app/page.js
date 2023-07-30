@@ -17,15 +17,20 @@ export default async function Home() {
     0
   );
 
+  let convertedtotalFloatingProfit = totalFloatingProfit;
+  convertedtotalFloatingProfit = convertedtotalFloatingProfit.toFixed(2);
+
   return (
     <main className={styles.main}>
       <Tabs />
       <p>
         Floating:
-        {totalFloatingProfit < 0 ? (
-          <span style={{ color: "red" }}>{totalFloatingProfit}</span>
+        {convertedtotalFloatingProfit < 0 ? (
+          <span style={{ color: "red" }}>{convertedtotalFloatingProfit}</span>
         ) : (
-          <span style={{ color: "green" }}>{{ totalFloatingProfit }}</span>
+          <span style={{ color: "green" }}>
+            {{ convertedtotalFloatingProfit }}
+          </span>
         )}
       </p>
       {orders.map((order, index) => (
