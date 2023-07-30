@@ -8,7 +8,7 @@ const TradeCard = ({ order }) => {
       {order.profit < 0 ? (
         <p style={{ color: "red" }}>{order.profit}</p>
       ) : (
-        <p>{order.profit}</p>
+        <p style={{ color: "green" }}>{order.profit}</p>
       )}
       <strong>Lotsize:</strong> {order.lots}
     </div>
