@@ -3,7 +3,8 @@ import styles from "../src/app/TradeCard.module.css";
 const TradeCard = ({ order }) => {
   return (
     <div className={styles.card}>
-      <h2>{order.symbol}</h2>
+      <h3>{order.symbol}</h3>
+      <strong>Type:</strong> {order.orderType}
       <div style={{ display: "flex", gap: 5 }}>
         <p>
           <strong>Profit:</strong>
