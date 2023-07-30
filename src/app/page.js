@@ -31,21 +31,29 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <Tabs />
-      <p>Account Balance: {formattedaccountBalance}</p>
-      <p>Equity: {formattedaccountEquity}</p>
-      <p>
-        Floating:
-        {convertedtotalFloatingProfit < 0 ? (
-          <span style={{ color: "red" }}>{convertedtotalFloatingProfit}</span>
-        ) : (
-          <span style={{ color: "green" }}>
-            {{ convertedtotalFloatingProfit }}
-          </span>
-        )}
-      </p>
-      {orders.map((order, index) => (
-        <OrderCard order={order} key={index} />
-      ))}
+      <div style={{ display: "flex", gap: 30 }}>
+        <p>Account Balance: {formattedaccountBalance}</p>
+        <p>Equity: {formattedaccountEquity}</p>
+        <div style={{ display: "flex" }}>
+          <p>Floating:</p>
+          <p>
+            {convertedtotalFloatingProfit < 0 ? (
+              <span style={{ color: "red" }}>
+                {convertedtotalFloatingProfit}
+              </span>
+            ) : (
+              <span style={{ color: "green" }}>
+                {{ convertedtotalFloatingProfit }}
+              </span>
+            )}
+          </p>
+        </div>
+      </div>
+      <div>
+        {orders.map((order, index) => (
+          <OrderCard order={order} key={index} />
+        ))}
+      </div>
     </main>
   );
 }
