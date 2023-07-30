@@ -25,7 +25,7 @@ export default async function Home() {
   let formattedaccountBalance = "$" + accountBalance.toLocaleString();
   let formattedaccountEquity = "$" + accountEquity.toLocaleString();
 
-  let convertedtotalFloatingProfit = account.profit;
+  let convertedtotalFloatingProfit = account?.profit;
   convertedtotalFloatingProfit = convertedtotalFloatingProfit.toFixed(2);
 
   return (
@@ -36,13 +36,14 @@ export default async function Home() {
         <div style={{ display: "flex" }}>
           <p>Floating:</p>
           <p>
-            {convertedtotalFloatingProfit < 0 ? (
+            {convertedtotalFloatingProfit &&
+            convertedtotalFloatingProfit < 0 ? (
               <span style={{ color: "red" }}>
                 {convertedtotalFloatingProfit}
               </span>
             ) : (
               <span style={{ color: "green" }}>
-                {{ convertedtotalFloatingProfit }}
+                {convertedtotalFloatingProfit}
               </span>
             )}
           </p>
