@@ -10,12 +10,12 @@ const items = [
   {
     key: "1",
     label: `Open Trades`,
-    children: `Content of Tab Pane 1`,
+    children: ``,
   },
   {
     key: "2",
     label: `Closed Trades`,
-    children: `Content of Tab Pane 2`,
+    children: ``,
   },
 ];
 

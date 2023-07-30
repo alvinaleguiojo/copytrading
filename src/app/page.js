@@ -30,7 +30,6 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <Tabs />
       <div style={{ display: "flex", gap: 30 }}>
         <p>Account Balance: {formattedaccountBalance}</p>
         <p>Equity: {formattedaccountEquity}</p>
@@ -50,6 +49,7 @@ export default async function Home() {
         </div>
       </div>
       <div>
+        <Tabs />
         {orders.map((order, index) => (
           <OrderCard order={order} key={index} />
         ))}
