@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 const App = () => {
   const router = useRouter();
   const onChange = (key) => {
-    console.log(key);
+    if (key == "1") {
+      router.push("/open-order");
+    }
+
     if (key == "2") {
       router.push("/closed-order");
     }
@@ -20,7 +23,7 @@ const App = () => {
     },
     {
       key: "2",
-      label: `Closed Trades`,
+      label: `Closed Trades`, 
       children: ``,
     },
   ];
