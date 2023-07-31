@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 
 export default async function Home() {
   const res = await fetch(
-    `https://mt5.mtapi.be/OpenedOrders?id=72a053bf-5d2c-44ac-af50-ac88687cb77d`,
+    `https://mt5.mtapi.be/OpenedOrders?id=${process.env.AccountId}`,
     {
       cache: "no-store",
     }

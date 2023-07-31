@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const resAccount = await fetch(
-    `https://mt5.mtapi.be/AccountSummary?id=0d564542-08c2-4540-8861-dd0cfaaa40f1`,
+    `https://mt5.mtapi.be/AccountSummary?id=${process.env.AccountId}`,
     {
       cache: "no-store",
     }

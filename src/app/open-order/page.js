@@ -2,7 +2,7 @@ import OrderCard from "../../../components/OrderCard";
 
 export default async function Page() {
   const res = await fetch(
-    `https://mt5.mtapi.be/OpenedOrders?id=0d564542-08c2-4540-8861-dd0cfaaa40f1`,
+    `https://mt5.mtapi.be/OpenedOrders?id=${process.env.AccountId}`,
     {
       cache: "no-store",
     }
