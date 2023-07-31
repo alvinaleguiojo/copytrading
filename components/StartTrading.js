@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { PlayCircleOutlined } from "@ant-design/icons";
-import { Button, Input, Typography } from "antd";
+import { Button, Input, Typography, Switch } from "antd";
 const { Title, Paragraph, Text, Link } = Typography;
 
 function StartTrading() {
@@ -17,7 +16,7 @@ function StartTrading() {
 
   return (
     <div style={{ display: "flex", gap: 5 }}>
-      <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+      {/* <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
         <Text style={{ minWidth: 50 }}>Lotsize</Text>
         <Input
           placeholder="0.01"
@@ -27,13 +26,13 @@ function StartTrading() {
           ref={inputRef}
         />
       </div>
-      <Button
-        type="primary"
-        icon={<PlayCircleOutlined />}
-        onClick={handleButtonClick}
-      >
-        Start Copy
-      </Button>
+      <Button type="primary" onClick={handleButtonClick}>
+        Set
+      </Button> */}
+      <div>
+        <Text>Enable Copy </Text>
+        <Switch defaultChecked={true} />
+      </div>
     </div>
   );
 }

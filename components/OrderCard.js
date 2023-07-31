@@ -2,6 +2,7 @@
 import styles from "../src/app/TradeCard.module.css";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import moment from "moment";
 
 const TradeCard = ({ order, close }) => {
   let entryPrice = order.openPrice.toFixed(4);
@@ -12,14 +13,38 @@ const TradeCard = ({ order, close }) => {
         <p>
           <strong>Symbol</strong>
         </p>
-        <p>{order.symbol}</p>
+        <small>{order.symbol}</small>
       </div>
 
       <div>
         <p>
           <strong>Type</strong>
         </p>
-        <p>{order.orderType}</p>
+        <small>{order.orderType}</small>
+      </div>
+
+      <div>
+        <p>
+          <strong>Lotsize</strong>
+        </p>
+        <small>{order.lots}</small>
+      </div>
+
+      <div>
+        <p>
+          <strong>Entry Price</strong>
+        </p>
+        <small> {entryPrice}</small>
+      </div>
+
+      <div>
+        <p>
+          <strong>Date</strong>
+        </p>
+        <small>
+          {moment(order.closeTime).format("LLL")} -
+          {moment(order.closeTime).format("LLL")}
+        </small>
       </div>
 
       <div>
@@ -27,24 +52,10 @@ const TradeCard = ({ order, close }) => {
           <strong>Profit</strong>
         </p>
         {order.profit < 0 ? (
-          <p style={{ color: "red" }}>{order.profit}</p>
+          <small style={{ color: "red" }}>{order.profit}</small>
         ) : (
-          <p style={{ color: "green" }}>{order.profit}</p>
+          <small style={{ color: "green" }}>{order.profit}</small>
         )}
-      </div>
-
-      <div>
-        <p>
-          <strong>Lotsize</strong>
-        </p>
-        <p>{order.lots}</p>
-      </div>
-
-      <div>
-        <p>
-          <strong>Entry Price</strong>
-        </p>
-        <p> {entryPrice}</p>
       </div>
 
       {close ? null : <Button icon={<CloseCircleOutlined />} />}
