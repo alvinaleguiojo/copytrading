@@ -15,7 +15,12 @@ const TradeCard = ({ order }) => {
           <p style={{ color: "green" }}>{order.profit}</p>
         )}
       </div>
-      <strong>Lotsize:</strong> {order.lots}
+      <p>
+        <strong>Lotsize:</strong> {order.lots}
+      </p>
+      <p>
+        <strong>Entry Price:</strong> {order.openPrice}
+      </p>
     </div>
   );
 };
