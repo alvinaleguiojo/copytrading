@@ -2,6 +2,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Tabs from "../../components/Tabs";
 import StartTrading from "../../components/StartTrading";
+import Logo from "../../components/Logo";
+import Withdraw from "../../components/Withdraw";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,34 +34,46 @@ export default async function RootLayout({ children }) {
       <body className={inter.className} style={{ backgroundColor: "#F0F2F5" }}>
         <div
           style={{
-            display: "flex",
-            gap: 30,
-            flexWrap: "wrap",
-            alignItems: "center",
+            backgroundColor: "#fff",
+            paddingLeft: 30,
           }}
         >
-          <p>Balance: {formattedaccountBalance}</p>
-          <p>Equity: {formattedaccountEquity}</p>
-          <div style={{ display: "flex" }}>
-            <p>Floating:</p>
-            <p>
-              {convertedtotalFloatingProfit &&
-              convertedtotalFloatingProfit < 0 ? (
-                <span style={{ color: "red" }}>
-                  {convertedtotalFloatingProfit}
-                </span>
-              ) : (
-                <span style={{ color: "green" }}>
-                  {convertedtotalFloatingProfit}
-                </span>
-              )}
-            </p>
+          <div
+            style={{
+              display: "flex",
+              gap: 30,
+              flexWrap: "wrap",
+              alignItems: "center",
+              backgroundColor: "#fff",
+            }}
+          >
+            <Logo />
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <p>Balance: {formattedaccountBalance}</p>
+              <Withdraw />
+            </div>
+            <p>Equity: {formattedaccountEquity}</p>
+            <div style={{ display: "flex" }}>
+              <p>Floating:</p>
+              <p>
+                {convertedtotalFloatingProfit &&
+                convertedtotalFloatingProfit < 0 ? (
+                  <span style={{ color: "red" }}>
+                    {convertedtotalFloatingProfit}
+                  </span>
+                ) : (
+                  <span style={{ color: "green" }}>
+                    {convertedtotalFloatingProfit}
+                  </span>
+                )}
+              </p>
+            </div>
+            <StartTrading />
           </div>
-          <StartTrading />
-        </div>
 
-        <div>
-          <Tabs />
+          <div>
+            <Tabs />
+          </div>
         </div>
 
         <div>{children}</div>

@@ -10,21 +10,21 @@ const TradeCard = ({ order, close }) => {
     <div className={styles.card}>
       <div>
         <p>
-          <strong>Symbol:</strong>
+          <strong>Symbol</strong>
         </p>
         <p>{order.symbol}</p>
       </div>
 
       <div>
         <p>
-          <strong>Type:</strong>
+          <strong>Type</strong>
         </p>
         <p>{order.orderType}</p>
       </div>
 
       <div>
         <p>
-          <strong>Profit:</strong>
+          <strong>Profit</strong>
         </p>
         {order.profit < 0 ? (
           <p style={{ color: "red" }}>{order.profit}</p>
@@ -35,14 +35,14 @@ const TradeCard = ({ order, close }) => {
 
       <div>
         <p>
-          <strong>Lotsize:</strong>
+          <strong>Lotsize</strong>
         </p>
         <p>{order.lots}</p>
       </div>
 
       <div>
         <p>
-          <strong>Entry Price:</strong>
+          <strong>Entry Price</strong>
         </p>
         <p> {entryPrice}</p>
       </div>

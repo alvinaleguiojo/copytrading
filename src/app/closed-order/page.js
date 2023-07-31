@@ -15,7 +15,7 @@ export default async function Page() {
   }
 
   return (
-    <div>
+    <div style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 15 }}>
       {data.orders.map((order, index) =>
         index !== 0 ? (
           <OrderCard close={true} order={order} key={index} />
