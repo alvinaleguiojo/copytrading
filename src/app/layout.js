@@ -29,7 +29,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} style={{ backgroundColor: "#F0F2F5" }}>
         <div
           style={{
             display: "flex",
