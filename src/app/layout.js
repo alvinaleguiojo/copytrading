@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Tabs from "../../components/Tabs";
+import StartTrading from "../../components/StartTrading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default async function RootLayout({ children }) {
             display: "flex",
             gap: 30,
             flexWrap: "wrap",
+            alignItems: "center",
           }}
         >
           <p>Balance: {formattedaccountBalance}</p>
@@ -53,6 +55,7 @@ export default async function RootLayout({ children }) {
               )}
             </p>
           </div>
+          <StartTrading />
         </div>
 
         <div>
