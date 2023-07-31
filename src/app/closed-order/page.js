@@ -17,7 +17,9 @@ export default async function Page() {
   return (
     <div>
       {data.orders.map((order, index) =>
-        index !== 0 ? <OrderCard order={order} key={index} /> : null
+        index !== 0 ? (
+          <OrderCard close={true} order={order} key={index} />
+        ) : null
       )}
     </div>
   );

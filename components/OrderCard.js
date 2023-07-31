@@ -3,7 +3,7 @@ import styles from "../src/app/TradeCard.module.css";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-const TradeCard = ({ order }) => {
+const TradeCard = ({ order, close }) => {
   let entryPrice = order.openPrice.toFixed(4);
 
   return (
@@ -47,7 +47,7 @@ const TradeCard = ({ order }) => {
         <p> {entryPrice}</p>
       </div>
 
-      <Button icon={<CloseCircleOutlined />} />
+      {close ? null : <Button icon={<CloseCircleOutlined />} />}
     </div>
   );
 };
