@@ -15,7 +15,7 @@ export default async function Page() {
   }
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#F0F2F5" }}>
       {orders.map((order, index) => (
         <OrderCard order={order} key={index} />
       ))}

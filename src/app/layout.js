@@ -29,8 +29,14 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div style={{ display: "flex", gap: 30 }}>
-          <p>Account Balance: {formattedaccountBalance}</p>
+        <div
+          style={{
+            display: "flex",
+            gap: 30,
+            flexWrap: "wrap",
+          }}
+        >
+          <p>Balance: {formattedaccountBalance}</p>
           <p>Equity: {formattedaccountEquity}</p>
           <div style={{ display: "flex" }}>
             <p>Floating:</p>
@@ -48,8 +54,12 @@ export default async function RootLayout({ children }) {
             </p>
           </div>
         </div>
-        <Tabs />
-        {children}
+
+        <div>
+          <Tabs />
+        </div>
+
+        <div>{children}</div>
       </body>
     </html>
   );
