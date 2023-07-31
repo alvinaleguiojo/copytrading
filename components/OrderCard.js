@@ -1,11 +1,28 @@
+"use client";
 import styles from "../src/app/TradeCard.module.css";
+import { CloseCircleOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 const TradeCard = ({ order }) => {
+  let entryPrice = order.openPrice.toFixed(4);
+
   return (
     <div className={styles.card}>
-      <h3>{order.symbol}</h3>
-      <strong>Type:</strong> {order.orderType}
-      <div style={{ display: "flex", gap: 5 }}>
+      <div>
+        <p>
+          <strong>Symbol:</strong>
+        </p>
+        <p>{order.symbol}</p>
+      </div>
+
+      <div>
+        <p>
+          <strong>Type:</strong>
+        </p>
+        <p>{order.orderType}</p>
+      </div>
+
+      <div>
         <p>
           <strong>Profit:</strong>
         </p>
@@ -15,12 +32,22 @@ const TradeCard = ({ order }) => {
           <p style={{ color: "green" }}>{order.profit}</p>
         )}
       </div>
-      <p>
-        <strong>Lotsize:</strong> {order.lots}
-      </p>
-      <p>
-        <strong>Entry Price:</strong> {order.openPrice}
-      </p>
+
+      <div>
+        <p>
+          <strong>Lotsize:</strong>
+        </p>
+        <p>{order.lots}</p>
+      </div>
+
+      <div>
+        <p>
+          <strong>Entry Price:</strong>
+        </p>
+        <p> {entryPrice}</p>
+      </div>
+
+      <Button icon={<CloseCircleOutlined />} />
     </div>
   );
 };
