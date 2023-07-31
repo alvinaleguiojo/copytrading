@@ -1,4 +1,5 @@
 import OrderCard from "../../../components/OrderCard";
+import { Empty } from "antd";
 
 export default async function Page() {
   const res = await fetch(
@@ -9,6 +10,9 @@ export default async function Page() {
   );
 
   const data = await res.json();
+  if (data.length === 0) {
+    return <Empty description={<p>No closed trades</p>} />;
+  }
 
   return (
     <div>
