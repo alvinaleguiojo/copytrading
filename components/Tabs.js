@@ -1,14 +1,17 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "antd";
 import { useRouter, usePathname } from "next/navigation";
 
 const App = () => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
 
   const onChange = (key) => {
+    if (key == "0") {
+      router.push("/");
+    }
+
     if (key == "1") {
       router.push("/open-order");
     }
@@ -19,6 +22,11 @@ const App = () => {
   };
 
   const items = [
+    {
+      key: "0",
+      label: `Summary`,
+      children: ``,
+    },
     {
       key: "1",
       label: `Open Trades`,
@@ -31,13 +39,19 @@ const App = () => {
     },
   ];
 
-  return (
-    <Tabs
-      defaultActiveKey={pathname == "/open-order" ? "1" : "2"}
-      items={items}
-      onChange={onChange}
-    />
-  );
+  function Path() {
+    switch (pathname) {
+      case "/":
+        return "0";
+      case "/open-order":
+        return "1";
+
+      case "/closed-order":
+        return "2";
+    }
+  }
+
+  return <Tabs defaultActiveKey={Path} items={items} onChange={onChange} />;
 };
 
 export default App;

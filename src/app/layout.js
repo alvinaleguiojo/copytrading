@@ -1,9 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Tabs from "../../components/Tabs";
-import StartTrading from "../../components/StartTrading";
 import Logo from "../../components/Logo";
-import Withdraw from "../../components/Withdraw";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,7 +48,6 @@ export default async function RootLayout({ children }) {
             <Logo />
             <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
               <p>Balance: {formattedaccountBalance}</p>
-              <Withdraw />
             </div>
             <p>Equity: {formattedaccountEquity}</p>
             <div style={{ display: "flex" }}>
@@ -68,7 +65,6 @@ export default async function RootLayout({ children }) {
                 )}
               </p>
             </div>
-            <StartTrading />
           </div>
 
           <div>
