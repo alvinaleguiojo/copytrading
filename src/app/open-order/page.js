@@ -1,24 +1,10 @@
-import OrderCard from "../../../components/OrderCard";
-import { Empty } from "antd";
+import OrderCards from "../../../components/OrderCards";
+import { config } from "../../../config/config";
 
 export default async function Page() {
-  const res = await fetch(
-    `https://mt5.mtapi.be/OpenedOrders?id=${process.env.AccountId}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  const orders = await res.json();
-  if (orders.length === 0) {
-    return <Empty description={<p>No open trades</p>} />;
-  }
-
   return (
-    <div>
-      {orders.map((order, index) => (
-        <OrderCard order={order} key={index} />
-      ))}
+    <div style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 15 }}>
+      <OrderCards config={config[0]} />
     </div>
   );
 }

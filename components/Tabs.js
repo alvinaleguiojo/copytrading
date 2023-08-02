@@ -19,6 +19,10 @@ const App = () => {
     if (key == "2") {
       router.push("/closed-order");
     }
+
+    if (key == "3") {
+      router.push("/live-open-trades");
+    }
   };
 
   const items = [
@@ -37,6 +41,11 @@ const App = () => {
       label: `Closed Trades`,
       children: ``,
     },
+    {
+      key: "3",
+      label: `Live Open Trades`,
+      children: ``,
+    },
   ];
 
   function Path() {
@@ -48,6 +57,9 @@ const App = () => {
 
       case "/closed-order":
         return "2";
+
+      case "/live-open-trades":
+        return "3";
     }
   }
 

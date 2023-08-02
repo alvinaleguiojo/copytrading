@@ -1,11 +1,56 @@
 "use client";
 import styles from "../src/app/TradeCard.module.css";
-import { CloseCircleOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { CloseCircleOutlined, EditOutlined } from "@ant-design/icons";
+import { Button, message, Modal, Typography, Input } from "antd";
 import moment from "moment";
+import { useState } from "react";
+const { Text } = Typography;
 
-const TradeCard = ({ order, close }) => {
+const TradeCard = ({ order, close, setReload, config }) => {
   let entryPrice = order.openPrice.toFixed(4);
+  const [loading, setLoading] = useState(false);
+  const [modal1Open, setModal1Open] = useState(false);
+  const [stopLoss, setStopLoss] = useState(0);
+
+  async function handleCloseTrades() {
+    message.loading("Loading", 0);
+    setLoading(true);
+    try {
+      await fetch(
+        `https://mt5.mtapi.be/OrderClose?id=${config.AccountID}&ticket=${order.ticket}`
+      ).then(() => {
+        setReload((prev) => !prev);
+        message.destroy();
+        message.success("Oder has been closed successfully");
+      });
+    } catch (error) {
+      message.destroy();
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleUpdateTrades() {
+    message.loading("Loading", 0);
+    try {
+      const res = await fetch(
+        `https://mt5.mtapi.be/OrderModify?id=${config.AccountID}&ticket=${order.ticket}&stoploss=${stopLoss}&takeprofit=0`
+      );
+      const data = await res.json();
+      if (data.code == "INVALID_STOPS") {
+        setReload((prev) => !prev);
+        message.destroy();
+        message.error(data.message);
+      }
+    } catch (error) {
+      message.destroy();
+      message.error(error.message);
+    } finally {
+      setModal1Open(false);
+    }
+    setModal1Open(false);
+  }
 
   return (
     <div className={styles.card}>
@@ -14,6 +59,13 @@ const TradeCard = ({ order, close }) => {
           <strong>Symbol</strong>
         </p>
         <small>{order.symbol}</small>
+      </div>
+
+      <div>
+        <p>
+          <strong>Ticket</strong>
+        </p>
+        <small>{order.ticket}</small>
       </div>
 
       <div>
@@ -37,14 +89,20 @@ const TradeCard = ({ order, close }) => {
         <small> {entryPrice}</small>
       </div>
 
+      {order.stopLoss !== 0 ? (
+        <div>
+          <p>
+            <strong>Trailing Stop</strong>
+          </p>
+          <small> {order.stopLoss}</small>
+        </div>
+      ) : null}
+
       <div>
         <p>
-          <strong>Date</strong>
+          <strong>Date Entry</strong>
         </p>
-        <small>
-          {moment(order.closeTime).format("LLL")} -
-          {moment(order.closeTime).format("LLL")}
-        </small>
+        <small>{moment(order.openTime).format("MMMM DD, YYYY h:mm a")}</small>
       </div>
 
       <div>
@@ -52,13 +110,51 @@ const TradeCard = ({ order, close }) => {
           <strong>Profit</strong>
         </p>
         {order.profit < 0 ? (
-          <small style={{ color: "red" }}>{order.profit}</small>
+          <small style={{ color: "red" }}>{order.profit.toFixed(2)}</small>
         ) : (
-          <small style={{ color: "green" }}>{order.profit}</small>
+          <small style={{ color: "green" }}>{order.profit.toFixed(2)}</small>
         )}
       </div>
 
-      {close ? null : <Button icon={<CloseCircleOutlined />} />}
+      <Modal
+        title="Modify Trade"
+        centered
+        open={modal1Open}
+        onOk={() => handleUpdateTrades()}
+        onCancel={() => setModal1Open(false)}
+      >
+        {/* <Text>Take Profit</Text>
+        <Input placeholder="enter price" /> */}
+        <Text>Stop Loss</Text>
+        <Input
+          value={stopLoss}
+          placeholder="enter price"
+          onChange={(e) => setStopLoss(e.target.value)}
+          type="number"
+        />
+      </Modal>
+
+      {!close ? (
+        <div style={{ display: "flex", gap: 5 }}>
+          {close ? null : (
+            <Button
+              disabled={loading}
+              loading={loading}
+              icon={<EditOutlined />}
+              onClick={() => setModal1Open(true)}
+            />
+          )}
+
+          {close ? null : (
+            <Button
+              disabled={loading}
+              loading={loading}
+              icon={<CloseCircleOutlined />}
+              onClick={handleCloseTrades}
+            />
+          )}
+        </div>
+      ) : null}
     </div>
   );
 };
