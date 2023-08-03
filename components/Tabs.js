@@ -28,12 +28,12 @@ const App = () => {
   const items = [
     {
       key: "0",
-      label: `Summary`,
+      label: `Charts`,
       children: ``,
     },
     {
       key: "1",
-      label: `Open Trades`,
+      label: `Demo Trades`,
       children: ``,
     },
     {
@@ -43,7 +43,7 @@ const App = () => {
     },
     {
       key: "3",
-      label: `Live Open Trades`,
+      label: `Live Trades`,
       children: ``,
     },
   ];

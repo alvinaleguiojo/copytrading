@@ -1,7 +1,7 @@
 "use client";
 import styles from "../src/app/TradeCard.module.css";
 import { CloseCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, message, Modal, Typography, Input } from "antd";
+import { Button, message, Modal, Typography, Input, Tag } from "antd";
 import moment from "moment";
 import { useState } from "react";
 const { Text } = Typography;
@@ -11,6 +11,7 @@ const TradeCard = ({ order, close, setReload, config }) => {
   const [loading, setLoading] = useState(false);
   const [modal1Open, setModal1Open] = useState(false);
   const [stopLoss, setStopLoss] = useState(0);
+  const [takeprofit, setTakeProfit] = useState(0);
 
   async function handleCloseTrades() {
     message.loading("Loading", 0);
@@ -35,14 +36,15 @@ const TradeCard = ({ order, close, setReload, config }) => {
     message.loading("Loading", 0);
     try {
       const res = await fetch(
-        `https://mt5.mtapi.be/OrderModify?id=${config.AccountID}&ticket=${order.ticket}&stoploss=${stopLoss}&takeprofit=0`
+        `https://mt5.mtapi.be/OrderModify?id=${config.AccountID}&ticket=${order.ticket}&stoploss=${stopLoss}&takeprofit=${takeprofit}`
       );
       const data = await res.json();
+      message.destroy();
       if (data.code == "INVALID_STOPS") {
         setReload((prev) => !prev);
-        message.destroy();
         message.error(data.message);
       }
+      message.success("Trade successfully modified");
     } catch (error) {
       message.destroy();
       message.error(error.message);
@@ -72,7 +74,12 @@ const TradeCard = ({ order, close, setReload, config }) => {
         <p>
           <strong>Type</strong>
         </p>
-        <small>{order.orderType}</small>
+        {order.orderType == "Buy" ? (
+          <Tag color="blue">{order.orderType}</Tag>
+        ) : null}
+        {order.orderType == "Sell" ? (
+          <Tag color="red">{order.orderType}</Tag>
+        ) : null}
       </div>
 
       <div>
@@ -125,6 +132,14 @@ const TradeCard = ({ order, close, setReload, config }) => {
       >
         {/* <Text>Take Profit</Text>
         <Input placeholder="enter price" /> */}
+        <Text>Take Profit</Text>
+        <Input
+          value={takeprofit}
+          placeholder="enter price"
+          onChange={(e) => setTakeProfit(e.target.value)}
+          type="number"
+        />
+
         <Text>Stop Loss</Text>
         <Input
           value={stopLoss}
@@ -142,6 +157,7 @@ const TradeCard = ({ order, close, setReload, config }) => {
               loading={loading}
               icon={<EditOutlined />}
               onClick={() => setModal1Open(true)}
+              type="primary"
             />
           )}
 
@@ -151,6 +167,8 @@ const TradeCard = ({ order, close, setReload, config }) => {
               loading={loading}
               icon={<CloseCircleOutlined />}
               onClick={handleCloseTrades}
+              type="primary"
+              danger
             />
           )}
         </div>

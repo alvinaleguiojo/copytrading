@@ -26,10 +26,20 @@ import {
   ZoomButtons,
   withDeviceRatio,
   withSize,
+  HeikinAshiSeries,
+  heikinAshi,
 } from "react-financial-charts";
 import { initialData } from "../config/data";
+import AddAccount from "./AddAccount";
+import useGetQoutesWebsocket from "../hooks/useGetQuotesWebsocket";
 
 export const TradingChart = () => {
+  // Define Heikin Ashi calculator
+  const [qoutes, setQoutes] = React.useState([]);
+  const { messages: quotesData } = useGetQoutesWebsocket();
+  if (!quotesData) return null;
+  // console.log(qoutes);
+  const ha = heikinAshi();
   const ScaleProvider =
     discontinuousTimeScaleProviderBuilder().inputDateAccessor(
       (d) => new Date(d.date)
@@ -44,7 +54,7 @@ export const TradingChart = () => {
     .merge((d, c) => {
       d.ema12 = c;
     })
-    .accessor((d) => d.ema12);
+    .accessor((d) => d?.ema12);
 
   const ema26 = ema()
     .id(2)
@@ -52,13 +62,15 @@ export const TradingChart = () => {
     .merge((d, c) => {
       d.ema26 = c;
     })
-    .accessor((d) => d.ema26);
+    .accessor((d) => d?.ema26);
 
   const elder = elderRay();
 
-  const calculatedData = elder(ema26(ema12(initialData)));
+  // Apply Heikin Ashi calculation to data
+  const calculatedData = elder(ema26(ema12(ha(quotesData))));
+  // Use calculatedData instead of initialData
   const { data, xScale, xAccessor, displayXAccessor } =
-    ScaleProvider(initialData);
+    ScaleProvider(calculatedData);
   const pricesDisplayFormat = format(".2f");
   const max = xAccessor(data[data.length - 1]);
   const min = xAccessor(data[Math.max(0, data.length - 100)]);
@@ -74,6 +86,7 @@ export const TradingChart = () => {
   const yExtents = (data) => {
     return [data.high, data.low];
   };
+
   const dateTimeFormat = "%d %b";
   const timeDisplayFormat = timeFormat(dateTimeFormat);
 
@@ -104,104 +117,117 @@ export const TradingChart = () => {
   };
 
   return (
-    <ChartCanvas
-      height={height}
-      ratio={3}
-      width={width}
-      margin={margin}
-      data={data}
-      displayXAccessor={displayXAccessor}
-      seriesName="Data"
-      xScale={xScale}
-      xAccessor={xAccessor}
-      xExtents={xExtents}
-      zoomAnchor={lastVisibleItemBasedZoomAnchor}
-    >
-      <Chart
-        id={2}
-        height={barChartHeight}
-        origin={barChartOrigin}
-        yExtents={barChartExtents}
+    <>
+      <AddAccount qoutes={qoutes} setQoutes={setQoutes} />
+      <ChartCanvas
+        height={height}
+        ratio={3}
+        width={width}
+        margin={margin}
+        data={data}
+        displayXAccessor={displayXAccessor}
+        seriesName="Data"
+        xScale={xScale}
+        xAccessor={xAccessor}
+        xExtents={xExtents}
+        zoomAnchor={lastVisibleItemBasedZoomAnchor}
       >
-        <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-      </Chart>
-      <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
-        <XAxis showGridLines showTickLabel={false} />
-        <YAxis showGridLines tickFormat={pricesDisplayFormat} />
-        <CandlestickSeries />
-        <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
-        <CurrentCoordinate
-          yAccessor={ema26.accessor()}
-          fillStyle={ema26.stroke()}
-        />
-        <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
-        <CurrentCoordinate
-          yAccessor={ema12.accessor()}
-          fillStyle={ema12.stroke()}
-        />
-        <MouseCoordinateY
-          rectWidth={margin.right}
-          displayFormat={pricesDisplayFormat}
-        />
-        <EdgeIndicator
-          itemType="last"
-          rectWidth={margin.right}
-          fill={openCloseColor}
-          lineStroke={openCloseColor}
-          displayFormat={pricesDisplayFormat}
-          yAccessor={yEdgeIndicator}
-        />
-        <MovingAverageTooltip
-          origin={[8, 24]}
-          options={[
-            {
-              yAccessor: ema26.accessor(),
-              type: "EMA",
-              stroke: ema26.stroke(),
-              windowSize: ema26.options().windowSize,
-            },
-            {
-              yAccessor: ema12.accessor(),
-              type: "EMA",
-              stroke: ema12.stroke(),
-              windowSize: ema12.options().windowSize,
-            },
-          ]}
-        />
+        <Chart
+          id={2}
+          height={barChartHeight}
+          origin={barChartOrigin}
+          yExtents={barChartExtents}
+        >
+          <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
+        </Chart>
+        <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
+          <XAxis
+            showGridLines
+            showTickLabel={true}
+            tickFormat={timeDisplayFormat}
+          />
+          <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+          <CandlestickSeries />
+          <LineSeries
+            yAccessor={ema26.accessor()}
+            strokeStyle={ema26.stroke()}
+          />
+          <CurrentCoordinate
+            yAccessor={ema26.accessor()}
+            fillStyle={ema26.stroke()}
+          />
+          <LineSeries
+            yAccessor={ema12.accessor()}
+            strokeStyle={ema12.stroke()}
+          />
+          <CurrentCoordinate
+            yAccessor={ema12.accessor()}
+            fillStyle={ema12.stroke()}
+          />
+          <MouseCoordinateY
+            rectWidth={margin.right}
+            displayFormat={pricesDisplayFormat}
+          />
+          <EdgeIndicator
+            itemType="last"
+            rectWidth={margin.right}
+            fill={openCloseColor}
+            lineStroke={openCloseColor}
+            displayFormat={pricesDisplayFormat}
+            yAccessor={yEdgeIndicator}
+          />
+          <MovingAverageTooltip
+            origin={[8, 24]}
+            options={[
+              {
+                yAccessor: ema26.accessor(),
+                type: "EMA",
+                stroke: ema26.stroke(),
+                windowSize: ema26.options().windowSize,
+              },
+              {
+                yAccessor: ema12.accessor(),
+                type: "EMA",
+                stroke: ema12.stroke(),
+                windowSize: ema12.options().windowSize,
+              },
+            ]}
+          />
+          <ZoomButtons />
+          <OHLCTooltip origin={[8, 16]} />
+        </Chart>
 
-        <ZoomButtons />
-        <OHLCTooltip origin={[8, 16]} />
-      </Chart>
-      <Chart
-        id={4}
-        height={elderRayHeight}
-        yExtents={[0, elder.accessor()]}
-        origin={elderRayOrigin}
-        padding={{ top: 8, bottom: 8 }}
-      >
-        <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-        <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
+        <Chart
+          id={4}
+          height={elderRayHeight}
+          yExtents={[0, elder.accessor()]}
+          origin={elderRayOrigin}
+          padding={{ top: 8, bottom: 8 }}
+        >
+          <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
+          <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
 
-        <MouseCoordinateX displayFormat={timeDisplayFormat} />
-        <MouseCoordinateY
-          rectWidth={margin.right}
-          displayFormat={pricesDisplayFormat}
-        />
+          <MouseCoordinateX displayFormat={timeDisplayFormat} />
+          <MouseCoordinateY
+            rectWidth={margin.right}
+            displayFormat={pricesDisplayFormat}
+          />
 
-        <ElderRaySeries yAccessor={elder.accessor()} />
+          <ElderRaySeries yAccessor={elder.accessor()} />
 
-        <SingleValueTooltip
-          yAccessor={elder.accessor()}
-          yLabel="Elder Ray"
-          yDisplayFormat={(d) =>
-            `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
-              d.bearPower
-            )}`
-          }
-          origin={[8, 16]}
-        />
-      </Chart>
-      <CrossHairCursor />
-    </ChartCanvas>
+          <SingleValueTooltip
+            yAccessor={elder.accessor()}
+            yLabel="Elder Ray"
+            yDisplayFormat={(d) =>
+              `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
+                d.bearPower
+              )}`
+            }
+            origin={[8, 16]}
+          />
+        </Chart>
+        <CrossHairCursor />
+      </ChartCanvas>
+    </>
   );
 };

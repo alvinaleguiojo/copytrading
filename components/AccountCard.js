@@ -11,8 +11,6 @@ function AccountCard({ account }) {
   let formattedaccountBalance = "$" + account?.data?.balance?.toLocaleString();
   let formattedaccountEquity = "$" + account?.data?.equity?.toLocaleString();
 
-  console.log(account);
-
   return (
     <div className={styles.card}>
       <Text>Account ID: {account.UserID} </Text>
@@ -20,7 +18,7 @@ function AccountCard({ account }) {
       <Text>Balance: {formattedaccountBalance} </Text>
       <Text>Equity: {formattedaccountEquity} </Text>
       <AddAccount account={account} />
-      <StartTrading />
+      <StartTrading account={account} />
     </div>
   );
 }

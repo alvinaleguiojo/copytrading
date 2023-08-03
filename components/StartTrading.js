@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { Button, Input, Typography, Switch } from "antd";
 const { Title, Paragraph, Text, Link } = Typography;
 
-function StartTrading() {
+function StartTrading({ account }) {
   const [lotSize, setLotSize] = useState(0.01);
   const inputRef = useRef();
 
@@ -31,7 +31,10 @@ function StartTrading() {
       </Button> */}
       <div>
         <Text>Enable Copy </Text>
-        <Switch defaultChecked={true} />
+        <Switch
+          defaultChecked={account.EnabledCopy}
+          checked={account.EnabledCopy}
+        />
       </div>
     </div>
   );
