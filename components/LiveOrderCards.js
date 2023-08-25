@@ -16,7 +16,7 @@ function LiveOrderCards() {
     <div>
       {data?.map((order, index) => (
         <OrderCard
-          config={config[1]}
+          config={config[2]}
           order={order}
           key={index}
           setReload={setReload}

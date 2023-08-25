@@ -8,7 +8,7 @@ function CloseDemoTrades({ config }) {
   const [reload, setReload] = React.useState(false);
   const { data = [] } = useCloseDemoTrades(reload);
 
-  if (data.length === 0) {
+  if (data?.length === 0) {
     return <Empty description={<p>No closed trades</p>} />;
   }
   return (

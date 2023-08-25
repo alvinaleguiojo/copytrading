@@ -4,7 +4,7 @@ import { config } from "../config/config";
 
 async function getOpenLiveOrder() {
   const res = await fetch(
-    `https://mt5.mtapi.be/OpenedOrders?id=${config[1].AccountID}`
+    `https://mt5.mtapi.be/OpenedOrders?id=${config[2].AccountID}`
   );
   return await res.json();
 }

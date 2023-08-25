@@ -24,12 +24,8 @@ import {
   MouseCoordinateX,
   MouseCoordinateY,
   ZoomButtons,
-  withDeviceRatio,
-  withSize,
-  HeikinAshiSeries,
   heikinAshi,
 } from "react-financial-charts";
-import { initialData } from "../config/data";
 import AddAccount from "./AddAccount";
 import useGetQoutesWebsocket from "../hooks/useGetQuotesWebsocket";
 

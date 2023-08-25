@@ -5,7 +5,7 @@ import { Typography, Input, Select, message } from "antd";
 
 function AddAccount({ account }) {
   const [volume, setVolume] = useState(0.01);
-  const [symbol, setSymbol] = useState("AUDUSD");
+  const [symbol, setSymbol] = useState("NAS100");
 
   async function handleBuyOrder(operation) {
     try {
@@ -62,7 +62,7 @@ function AddAccount({ account }) {
     <div style={{ display: "flex", gap: 10 }}>
       <Select
         showSearch
-        defaultValue="AUDUSD"
+        defaultValue="NAS100"
         style={{
           width: 150,
         }}
@@ -75,54 +75,54 @@ function AddAccount({ account }) {
         }
         onChange={(value) => setSymbol(value)}
         options={[
-          {
-            value: "AUDUSD",
-            label: "AUDUSD",
-          },
-          {
-            value: "EURUSD",
-            label: "EURUSD",
-          },
-          {
-            value: "GBPUSD",
-            label: "GBPUSD",
-          },
-          {
-            value: "GOLD",
-            label: "GOLD",
-          },
-          {
-            value: "XAUUSD",
-            label: "XAUUSD",
-          },
-          {
-            value: "USDCHF",
-            label: "USDCHF",
-          },
-          {
-            value: "BTCUSD",
-            label: "BTCUSD",
-          },
+          // {
+          //   value: "AUDUSD",
+          //   label: "AUDUSD",
+          // },
+          // {
+          //   value: "EURUSD",
+          //   label: "EURUSD",
+          // },
+          // {
+          //   value: "GBPUSD",
+          //   label: "GBPUSD",
+          // },
+          // {
+          //   value: "GOLD",
+          //   label: "GOLD",
+          // },
+          // {
+          //   value: "XAUUSD",
+          //   label: "XAUUSD",
+          // },
+          // {
+          //   value: "USDCHF",
+          //   label: "USDCHF",
+          // },
+          // {
+          //   value: "BTCUSD",
+          //   label: "BTCUSD",
+          // },
           {
             value: "NAS100",
             label: "NAS100",
           },
-          {
-            value: "NZDUSD",
-            label: "NZDUSD",
-          },
-          {
-            value: "USDJPY",
-            label: "USDJPY",
-          },
-          {
-            value: "USDCAD",
-            label: "USDCAD",
-          },
-          {
-            value: "GBPJPY",
-            label: "GBPJPY",
-          },
+          // {
+          //   value: "NZDUSD",
+          //   label: "NZDUSD",
+          // },
+          // {
+          //   value: "USDJPY",
+          //   label: "USDJPY",
+          // },
+          // {
+          //   value: "USDCAD",
+          //   label: "USDCAD",
+          // },
+          // {
+          //   value: "GBPJPY",
+          //   label: "GBPJPY",
+          // },
         ]}
       />
       <Button type="primary" onClick={() => handleBuyOrder("Buy")}>
