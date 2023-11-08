@@ -28,12 +28,12 @@ const App = () => {
   const items = [
     {
       key: "0",
-      label: `Charts`,
+      label: `Dashboard`,
       children: ``,
     },
     {
       key: "1",
-      label: `Demo Trades`,
+      label: `Open Trades`,
       children: ``,
     },
     {
@@ -41,11 +41,11 @@ const App = () => {
       label: `Closed Trades`,
       children: ``,
     },
-    {
-      key: "3",
-      label: `Live Trades`,
-      children: ``,
-    },
+    // {
+    //   key: "3",
+    //   label: `Live Trades`,
+    //   children: ``,
+    // },
   ];
 
   function Path() {
@@ -58,8 +58,8 @@ const App = () => {
       case "/closed-order":
         return "2";
 
-      case "/live-open-trades":
-        return "3";
+      // case "/live-open-trades":
+      //   return "3";
     }
   }
 

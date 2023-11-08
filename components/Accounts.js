@@ -11,7 +11,7 @@ function Accounts() {
       const accountData = await Promise.all(
         config.map(async (value) => {
           const res = await fetch(
-            `https://mt5.mtapi.be/AccountSummary?id=${value.AccountID}`
+            `https://mt4.mtapi.be/AccountSummary?id=${value.AccountID}`
           );
           const data = await res.json();
           return { ...value, data };

@@ -7,23 +7,11 @@ function AddAccount({ account }) {
   const [volume, setVolume] = useState(0.01);
   const [symbol, setSymbol] = useState("EURUSD");
 
-  const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState("bottom");
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  const onChange = (e) => {
-    setPlacement(e.target.value);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
-
   async function handleBuyOrder(operation) {
     try {
       message.loading("Pending order", 0);
       const res = await fetch(
-        `https://mt5.mtapi.be/OrderSend?id=${account.AccountID}&symbol=${symbol}&operation=${operation}&volume=${volume}&placedType=Web`
+        `https://mt4.mtapi.be/OrderSend?id=85dce7bb-c281-4990-8a4a-de2b061b4ef0&symbol=${symbol}&operation=${operation}&volume=${volume}&placedType=Web`
       );
       const data = await res.json();
       message.destroy();
@@ -42,7 +30,7 @@ function AddAccount({ account }) {
     try {
       message.loading("Pending order", 0);
       const res = await fetch(
-        `https://mt5.mtapi.be/OrderSend?id=${account.AccountID}&symbol=${symbol}&operation=${operation}&volume=${volume}&placedType=Web`
+        `https://mt4.mtapi.be/OrderSend?id=85dce7bb-c281-4990-8a4a-de2b061b4ef0&symbol=${symbol}&operation=${operation}&volume=${volume}&placedType=Web`
       );
       const data = await res.json();
       message.destroy();
@@ -62,7 +50,7 @@ function AddAccount({ account }) {
 
     // const resUnsubscribe = await fetch(`https://mt5.mtapi.be/UnSubscribe?id=0d564542-08c2-4540-8861-dd0cfaaa40f1&symbol=EURUSD`)
     const res = await fetch(
-      ` https://mt5.mtapi.be/Subscribe?id=0d564542-08c2-4540-8861-dd0cfaaa40f1&symbol=${currency}&interval=1`
+      ` https://mt4.mtapi.be/Subscribe?id=0d564542-08c2-4540-8861-dd0cfaaa40f1&symbol=${currency}&interval=1`
     );
 
     // `https://mt5.mtapi.be/PriceHistory?id=${account.AccountID}&symbol=${currency}&from=2022-08-01T00%3A00%3A00&to=2022-08-03T00%3A00%3A00&timeFrame=5`
@@ -74,14 +62,13 @@ function AddAccount({ account }) {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         gap: 10,
-        flexWrap: "wrap",
       }}
     >
       <Select
         showSearch
         defaultValue="EURUSD"
-        style={{ width: "100%" }}
         optionFilterProp="children"
         filterOption={(input, option) => (option?.label ?? "").includes(input)}
         filterSort={(optionA, optionB) =>
@@ -181,26 +168,6 @@ function AddAccount({ account }) {
       {/* <Button type="primary" onClick={showDrawer}>
         Open
       </Button> */}
-      <Drawer
-        // title="Drawer with extra actions"
-        placement={placement}
-        width={500}
-        onClose={onClose}
-        open={open}
-        // extra={
-        //   <Space>
-        //     <Button onClick={onClose}>Cancel</Button>
-        //     <Button type="primary" onClick={onClose}>
-        //       OK
-        //     </Button>
-        //   </Space>
-        // }
-        styles={{ backgroundColor: "red" }}
-      >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Drawer>
     </div>
   );
 }

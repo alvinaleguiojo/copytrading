@@ -7,7 +7,7 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <div>
-        <TradingChart />
+        {/* <TradingChart /> */}
         <Accounts />
       </div>
     </main>

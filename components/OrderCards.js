@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import useOpenTrades from "../hooks/useOpenTrade";
 import OrderCard from "./OrderCard";
 import { Empty, Skeleton } from "antd";
@@ -12,6 +12,7 @@ function OrderCards({ config, data }) {
 
   useEffect(() => {
     // Create a WebSocket client and connect to the URL
+
     const socket = new WebSocket(
       "wss://mt4.mtapi.be/OnOrderUpdate?id=85dce7bb-c281-4990-8a4a-de2b061b4ef0"
     );
@@ -26,11 +27,8 @@ function OrderCards({ config, data }) {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-
-      console.log(data);
-
       const { data: opentrades } = data;
-      // console.log([...orders, opentrades.orders]);
+      console.log(opentrades);
       setOrders(opentrades);
       // Update UI or perform actions based on the received data
     };

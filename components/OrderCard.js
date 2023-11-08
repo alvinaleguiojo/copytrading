@@ -1,7 +1,7 @@
 "use client";
 import styles from "../src/app/TradeCard.module.css";
 import { CloseCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, message, Modal, Typography, Input, Tag } from "antd";
+import { Button, message, Modal, Typography, Input, Tag, Drawer } from "antd";
 import moment from "moment";
 import { useState } from "react";
 const { Text } = Typography;
@@ -10,15 +10,27 @@ const TradeCard = ({ order, close, setReload, config }) => {
   let entryPrice = order?.openPrice.toFixed(4);
   const [loading, setLoading] = useState(false);
   const [modal1Open, setModal1Open] = useState(false);
-  const [stopLoss, setStopLoss] = useState(0);
-  const [takeprofit, setTakeProfit] = useState(0);
+  const [stopLoss, setStopLoss] = useState(150);
+  const [takeprofit, setTakeProfit] = useState(300);
+
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState("bottom");
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onChange = (e) => {
+    setPlacement(e.target.value);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   async function handleCloseTrades() {
     message.loading("Loading", 0);
     setLoading(true);
     try {
       await fetch(
-        `https://mt5.mtapi.be/OrderClose?id=${config.AccountID}&ticket=${order.ticket}`
+        `https://mt4.mtapi.be/OrderClose?id=85dce7bb-c281-4990-8a4a-de2b061b4ef0&ticket=${order.ticket}`
       ).then(() => {
         setReload((prev) => !prev);
         message.destroy();
@@ -36,7 +48,11 @@ const TradeCard = ({ order, close, setReload, config }) => {
     message.loading("Loading", 0);
     try {
       const res = await fetch(
-        `https://mt5.mtapi.be/OrderModify?id=${config.AccountID}&ticket=${order.ticket}&stoploss=${stopLoss}&takeprofit=${takeprofit}`
+        `https://mt4.mtapi.be/OrderModify?id=85dce7bb-c281-4990-8a4a-de2b061b4ef0&ticket=${
+          order.ticket
+        }&stoploss=${entryPrice - stopLoss}&takeprofit=${
+          entryPrice + takeprofit
+        }`
       );
       const data = await res.json();
       message.destroy();
@@ -63,23 +79,19 @@ const TradeCard = ({ order, close, setReload, config }) => {
         <small>{order.symbol}</small>
       </div>
 
-      <div>
+      {/* <div>
         <p>
           <strong>Ticket</strong>
         </p>
         <small>{order.ticket}</small>
-      </div>
+      </div> */}
 
       <div>
         <p>
           <strong>Type</strong>
         </p>
-        {order.orderType == "Buy" ? (
-          <Tag color="blue">{order.orderType}</Tag>
-        ) : null}
-        {order.orderType == "Sell" ? (
-          <Tag color="red">{order.orderType}</Tag>
-        ) : null}
+        {order.type == "Buy" ? <Tag color="blue">{order.type}</Tag> : null}
+        {order.type == "Sell" ? <Tag color="red">{order.type}</Tag> : null}
       </div>
 
       <div>
@@ -89,28 +101,28 @@ const TradeCard = ({ order, close, setReload, config }) => {
         <small>{order.lots}</small>
       </div>
 
-      <div>
+      {/* <div>
         <p>
           <strong>Entry Price</strong>
         </p>
         <small> {entryPrice}</small>
-      </div>
+      </div> */}
 
       {order.stopLoss !== 0 ? (
         <div>
           <p>
-            <strong>Trailing Stop</strong>
+            <strong>Stop Loss</strong>
           </p>
           <small> {order.stopLoss}</small>
         </div>
       ) : null}
-
+      {/* 
       <div>
         <p>
           <strong>Date Entry</strong>
         </p>
         <small>{moment(order.openTime).format("MMMM DD, YYYY h:mm a")}</small>
-      </div>
+      </div> */}
 
       <div>
         <p>
@@ -132,21 +144,6 @@ const TradeCard = ({ order, close, setReload, config }) => {
       >
         {/* <Text>Take Profit</Text>
         <Input placeholder="enter price" /> */}
-        <Text>Take Profit</Text>
-        <Input
-          value={takeprofit}
-          placeholder="enter price"
-          onChange={(e) => setTakeProfit(e.target.value)}
-          type="number"
-        />
-
-        <Text>Stop Loss</Text>
-        <Input
-          value={stopLoss}
-          placeholder="enter price"
-          onChange={(e) => setStopLoss(e.target.value)}
-          type="number"
-        />
       </Modal>
 
       {!close ? (
@@ -156,7 +153,8 @@ const TradeCard = ({ order, close, setReload, config }) => {
               disabled={loading}
               loading={loading}
               icon={<EditOutlined />}
-              onClick={() => setModal1Open(true)}
+              // onClick={() => setModal1Open(true)}
+              onClick={showDrawer}
               type="primary"
             />
           )}
@@ -171,6 +169,43 @@ const TradeCard = ({ order, close, setReload, config }) => {
               danger
             />
           )}
+
+          <Drawer
+            // title="Drawer with extra actions"
+            placement={placement}
+            width={500}
+            onClose={onClose}
+            open={open}
+            // extra={
+            //   <Space>
+            //     <Button onClick={onClose}>Cancel</Button>
+            //     <Button type="primary" onClick={onClose}>
+            //       OK
+            //     </Button>
+            //   </Space>
+            // }
+          >
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <Text>Take Profit</Text>
+              <Input
+                value={takeprofit}
+                placeholder="enter price"
+                onChange={(e) => setTakeProfit(e.target.value)}
+                type="number"
+              />
+
+              <Text>Stop Loss</Text>
+              <Input
+                value={stopLoss}
+                placeholder="enter price"
+                onChange={(e) => setStopLoss(e.target.value)}
+                type="number"
+              />
+              <Button type="primary" onClick={handleUpdateTrades}>
+                Save
+              </Button>
+            </div>
+          </Drawer>
         </div>
       ) : null}
     </div>
