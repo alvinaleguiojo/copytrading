@@ -114,9 +114,9 @@ export const TradingChart = () => {
 
   return (
     <>
-      <AddAccount qoutes={qoutes} setQoutes={setQoutes} />
+      {/* <AddAccount qoutes={qoutes} setQoutes={setQoutes} /> */}
       <ChartCanvas
-        height={height}
+        height={"80%"}
         ratio={3}
         width={width}
         margin={margin}

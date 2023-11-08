@@ -4,16 +4,17 @@ import useCloseDemoTrades from "../hooks/useCloseDemoTrades";
 import OrderCard from "./OrderCard";
 import { Empty } from "antd";
 
-function CloseDemoTrades({ config }) {
+function CloseDemoTrades({ config, data }) {
   const [reload, setReload] = React.useState(false);
-  const { data = [] } = useCloseDemoTrades(reload);
+  // const { data = [] } = useCloseDemoTrades(reload);
 
   if (data?.length === 0) {
     return <Empty description={<p>No closed trades</p>} />;
   }
+
   return (
     <div>
-      {data?.orders?.map((order, index) =>
+      {data?.map((order, index) =>
         index !== 0 ? (
           <OrderCard
             close={true}

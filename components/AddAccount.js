@@ -1,11 +1,23 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "antd";
-import { Typography, Input, Select, message } from "antd";
+import { Typography, Input, Select, message, Drawer, Space } from "antd";
 
 function AddAccount({ account }) {
   const [volume, setVolume] = useState(0.01);
-  const [symbol, setSymbol] = useState("NAS100");
+  const [symbol, setSymbol] = useState("EURUSD");
+
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState("bottom");
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onChange = (e) => {
+    setPlacement(e.target.value);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   async function handleBuyOrder(operation) {
     try {
@@ -59,13 +71,17 @@ function AddAccount({ account }) {
   }
 
   return (
-    <div style={{ display: "flex", gap: 10 }}>
+    <div
+      style={{
+        display: "flex",
+        gap: 10,
+        flexWrap: "wrap",
+      }}
+    >
       <Select
         showSearch
-        defaultValue="NAS100"
-        style={{
-          width: 150,
-        }}
+        defaultValue="EURUSD"
+        style={{ width: "100%" }}
         optionFilterProp="children"
         filterOption={(input, option) => (option?.label ?? "").includes(input)}
         filterSort={(optionA, optionB) =>
@@ -75,70 +91,116 @@ function AddAccount({ account }) {
         }
         onChange={(value) => setSymbol(value)}
         options={[
-          // {
-          //   value: "AUDUSD",
-          //   label: "AUDUSD",
-          // },
-          // {
-          //   value: "EURUSD",
-          //   label: "EURUSD",
-          // },
-          // {
-          //   value: "GBPUSD",
-          //   label: "GBPUSD",
-          // },
-          // {
-          //   value: "GOLD",
-          //   label: "GOLD",
-          // },
-          // {
-          //   value: "XAUUSD",
-          //   label: "XAUUSD",
-          // },
-          // {
-          //   value: "USDCHF",
-          //   label: "USDCHF",
-          // },
-          // {
-          //   value: "BTCUSD",
-          //   label: "BTCUSD",
-          // },
+          {
+            value: "AUDUSD",
+            label: "AUDUSD",
+          },
+          {
+            value: "EURUSD",
+            label: "EURUSD",
+          },
+          {
+            value: "GBPUSD",
+            label: "GBPUSD",
+          },
+          {
+            value: "GOLD",
+            label: "GOLD",
+          },
+          {
+            value: "XAUUSD",
+            label: "XAUUSD",
+          },
+          {
+            value: "USDCHF",
+            label: "USDCHF",
+          },
+          {
+            value: "BTCUSD",
+            label: "BTCUSD",
+          },
           {
             value: "NAS100",
             label: "NAS100",
           },
-          // {
-          //   value: "NZDUSD",
-          //   label: "NZDUSD",
-          // },
-          // {
-          //   value: "USDJPY",
-          //   label: "USDJPY",
-          // },
-          // {
-          //   value: "USDCAD",
-          //   label: "USDCAD",
-          // },
-          // {
-          //   value: "GBPJPY",
-          //   label: "GBPJPY",
-          // },
+          {
+            value: "NZDUSD",
+            label: "NZDUSD",
+          },
+          {
+            value: "USDJPY",
+            label: "USDJPY",
+          },
+          {
+            value: "USDCAD",
+            label: "USDCAD",
+          },
+          {
+            value: "GBPJPY",
+            label: "GBPJPY",
+          },
         ]}
       />
-      <Button type="primary" onClick={() => handleBuyOrder("Buy")}>
+      <Button
+        type="primary"
+        onClick={() => handleBuyOrder("Buy")}
+        style={{
+          flex: 1,
+          position: "absolute",
+          bottom: 10,
+          left: 0,
+          width: "48%",
+          height: 60,
+        }}
+      >
         Buy
       </Button>
       <Input
         placeholder="0.01"
-        style={{ width: 150 }}
+        style={{ width: "100%" }}
         onChange={(e) => setVolume(e.target.value)}
         type="number"
         value={volume}
         min={0.01}
       />
-      <Button type="primary" danger onClick={() => handleSellOrder("Sell")}>
+      <Button
+        type="primary"
+        danger
+        onClick={() => handleSellOrder("Sell")}
+        style={{
+          flex: 1,
+          position: "absolute",
+          bottom: 10,
+          right: 0,
+          width: "48%",
+          height: 60,
+        }}
+      >
         Sell
       </Button>
+      {/* <Button type="primary" onClick={showDrawer}>
+        Open
+      </Button> */}
+      <Drawer
+        // title="Drawer with extra actions"
+        placement={placement}
+        width={500}
+        onClose={onClose}
+        open={open}
+        // extra={
+        //   <Space>
+        //     <Button onClick={onClose}>Cancel</Button>
+        //     <Button type="primary" onClick={onClose}>
+        //       OK
+        //     </Button>
+        //   </Space>
+        // }
+        styles={{ backgroundColor: "red" }}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
     </div>
   );
 }

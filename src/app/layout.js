@@ -19,37 +19,37 @@ export default async function RootLayout({ children }) {
   );
 
   const account = await resAccount.json();
-  let accountBalance = account.balance;
-  let accountEquity = account.equity;
-  let formattedaccountBalance = "$" + accountBalance.toLocaleString();
-  let formattedaccountEquity = "$" + accountEquity.toLocaleString();
+  let accountBalance = account.balance | 0;
+  let accountEquity = account.equity | 0;
+  let formattedaccountBalance = "$" + accountBalance?.toLocaleString();
+  let formattedaccountEquity = "$" + accountEquity?.toLocaleString();
 
   let convertedtotalFloatingProfit = account?.profit;
-  convertedtotalFloatingProfit = convertedtotalFloatingProfit.toFixed(2);
+  convertedtotalFloatingProfit = convertedtotalFloatingProfit?.toFixed(2);
 
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "#F0F2F5" }}>
-        <div
-          style={{
-            backgroundColor: "#fff",
-            paddingLeft: 30,
-          }}
-        >
+      <body
+        className={inter.className}
+        style={{ backgroundColor: "#131626", color: "#fff" }}
+      >
+        <div>
           <div
             style={{
               display: "flex",
-              gap: 30,
-              flexWrap: "wrap",
-              alignItems: "center",
-              backgroundColor: "#fff",
+              flexDirection: "column",
             }}
           >
-            <Logo />
-            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div>
+              <Logo />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
               <p>Balance: {formattedaccountBalance}</p>
             </div>
+
             <p>Equity: {formattedaccountEquity}</p>
+
             <div style={{ display: "flex" }}>
               <p>Floating:</p>
               <p>

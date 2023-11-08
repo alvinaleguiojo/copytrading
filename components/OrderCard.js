@@ -7,7 +7,7 @@ import { useState } from "react";
 const { Text } = Typography;
 
 const TradeCard = ({ order, close, setReload, config }) => {
-  let entryPrice = order.openPrice.toFixed(4);
+  let entryPrice = order?.openPrice.toFixed(4);
   const [loading, setLoading] = useState(false);
   const [modal1Open, setModal1Open] = useState(false);
   const [stopLoss, setStopLoss] = useState(0);

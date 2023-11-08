@@ -63,7 +63,14 @@ const App = () => {
     }
   }
 
-  return <Tabs defaultActiveKey={Path} items={items} onChange={onChange} />;
+  return (
+    <Tabs
+      defaultActiveKey={Path}
+      items={items}
+      onChange={onChange}
+      style={{ color: "#fff" }}
+    />
+  );
 };
 
 export default App;
